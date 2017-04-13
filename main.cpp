@@ -26,7 +26,22 @@ public:
         res += "}[" + input_var + "];\n";
         res += "if (typeof " + output_var + " === 'undefined') {\n";
         res += "throw new Error('Invalid value in variable " + input_var + ": ' + JSON.stringify(" + input_var + "));\n";
-        res += "};\n";
+        res += "}\n";
+        return res;
+    }
+
+    std::string make_reverse_func(const std::string &output_var, const std::string &input_var) const {
+        std::string res;
+        res += output_var + " = {\n";
+        std::unordered_map<std::string, unsigned int>::const_iterator i = values.cbegin();
+        while (i != values.cend()) {
+            res += "\"" + std::to_string(i->second) + "\": \"" + i->first + "\",\n";
+            i++;
+        }
+        res += "}[" + input_var + "];\n";
+        res += "if (typeof " + output_var + " === 'undefined') {\n";
+        res += "throw new Error('Invalid value in variable " + input_var + ": ' + JSON.stringify(" + input_var + "));\n";
+        res += "}\n";
         return res;
     }
 
@@ -154,7 +169,7 @@ int main(int argc, char **argv) {
 
     std::string func;
 
-    func += "function(year, outlook, temp, wind, season, humidity) {\n";
+    func += "window.classify = function(year, outlook, temp, wind, season, humidity) {\n";
     func += "let features = [];\n";
     func += year_symb.make_transform_func("features[0]", "year");
     func += outlook_symb.make_transform_func("features[1]", "outlook");
@@ -197,7 +212,8 @@ int main(int argc, char **argv) {
     func += "        max_val = i;\n";
     func += "    }\n";
     func += "});\n";
-    func += "return max_val;\n";
+    func += up_down_symb.make_reverse_func("result", "max_val");
+    func += "return result;\n";
 
     func += "};\n";
 

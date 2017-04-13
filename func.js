@@ -1,4 +1,4 @@
-function(year, outlook, temp, wind, season, humidity) {
+window.classify = function(year, outlook, temp, wind, season, humidity) {
 let features = [];
 features[0] = {
 "2016": 1,
@@ -6,7 +6,7 @@ features[0] = {
 }[year];
 if (typeof features[0] === 'undefined') {
 throw new Error('Invalid value in variable year: ' + JSON.stringify(year));
-};
+}
 features[1] = {
 "heavy snow": 8,
 "light snow": 7,
@@ -20,7 +20,7 @@ features[1] = {
 }[outlook];
 if (typeof features[1] === 'undefined') {
 throw new Error('Invalid value in variable outlook: ' + JSON.stringify(outlook));
-};
+}
 if (temp < 30.000000) {features[2] = 0;}
 else if (temp < 40.000000) {features[2] = 1;}
 else if (temp < 50.000000) {features[2] = 2;}
@@ -40,7 +40,7 @@ features[4] = {
 }[season];
 if (typeof features[4] === 'undefined') {
 throw new Error('Invalid value in variable season: ' + JSON.stringify(season));
-};
+}
 if (humidity < 40.000000) {features[5] = 0;}
 else if (humidity < 50.000000) {features[5] = 1;}
 else if (humidity < 60.000000) {features[5] = 2;}
@@ -65,6 +65,13 @@ data.forEach(function(result, i) {
         max_val = i;
     }
 });
-return max_val;
+result = {
+"1": "down",
+"0": "up",
+}[max_val];
+if (typeof result === 'undefined') {
+throw new Error('Invalid value in variable max_val: ' + JSON.stringify(max_val));
+}
+return result;
 };
 
