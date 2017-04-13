@@ -1,12 +1,5 @@
-window.classify = function(year, outlook, temp, wind, season, humidity) {
+window.classify = function(outlook, temp, wind, season, humidity) {
 let features = [];
-features[0] = {
-"2016": 1,
-"2015": 0,
-}[year];
-if (typeof features[0] === 'undefined') {
-throw new Error('Invalid value in variable year: ' + JSON.stringify(year));
-}
 features[1] = {
 "heavy snow": 8,
 "light snow": 7,
@@ -48,16 +41,16 @@ else if (humidity < 70.000000) {features[5] = 3;}
 else if (humidity < 80.000000) {features[5] = 4;}
 else {features[5] = 5;}
 let data = [
-[[14, 104, ], [20, 10, 68, 2, 11, 5, 1, 1, ], [4, 13, 16, 36, 15, 34, ], [1, 24, 49, 35, 9, ], [29, 28, 29, 32, ], [8, 26, 28, 25, 23, 8, ], [118, ], ],
-[[17, 111, ], [33, 16, 58, 1, 9, 7, 2, 1, 1, ], [4, 10, 24, 27, 24, 39, ], [3, 34, 53, 34, 4, ], [33, 33, 33, 29, ], [6, 17, 33, 35, 23, 14, ], [0, 128, ], ],
+[[20, 10, 68, 2, 11, 5, 1, 1, ], [4, 13, 16, 36, 15, 34, ], [1, 24, 49, 35, 9, ], [29, 28, 29, 32, ], [8, 26, 28, 25, 23, 8, ], [118, ], ],
+[[33, 16, 58, 1, 9, 7, 2, 1, 1, ], [4, 10, 24, 27, 24, 39, ], [3, 34, 53, 34, 4, ], [33, 33, 33, 29, ], [6, 17, 33, 35, 23, 14, ], [0, 128, ], ],
 ];
 let max_prob = 0;
 let max_val;
 data.forEach(function(result, i) {
-    let total = result[6][i];
+    let total = result[5][i];
     let prob = total / 246;
     result.forEach(function(histogram, j) {
-        if (j == 6) {return;}
+        if (j == 5) {return;}
         prob *= histogram[features[j]] / total;
     });
     if (prob > max_prob) {

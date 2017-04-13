@@ -113,11 +113,11 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    static constexpr unsigned int num_columns = 7;
+    static constexpr unsigned int num_columns = 6;
     io::CSVReader<num_columns> in(argv[1]);
 
     in.read_header(io::ignore_extra_column,
-                   "year",
+                   /*"year",*/
                    "outlook",
                    "temp",
                    "wind",
@@ -126,9 +126,9 @@ int main(int argc, char **argv) {
                    "up/down"
                    /* "market difference", "current day", "previous day" */
                    );
-    unsigned int output_col = 6;
+    unsigned int output_col = 5;
 
-    StringSymbolizer year_symb;
+    //StringSymbolizer year_symb;
     StringSymbolizer outlook_symb;
     RangeSymbolizer temp_symb; temp_symb.add_split(30); temp_symb.add_split(40); temp_symb.add_split(50); temp_symb.add_split(60); temp_symb.add_split(70);
     RangeSymbolizer wind_symb; wind_symb.add_split(2); wind_symb.add_split(4); wind_symb.add_split(6); wind_symb.add_split(10);
@@ -141,7 +141,7 @@ int main(int argc, char **argv) {
 
     unsigned int rows = 0;
 
-    std::string year;
+    //std::string year;
     std::string outlook;
     double temp;
     double wind;
@@ -149,9 +149,9 @@ int main(int argc, char **argv) {
     double humidity;
     std::string up_down;
 
-    while(in.read_row(year, outlook, temp, wind, season, humidity, up_down)){
+    while(in.read_row(/*year, */outlook, temp, wind, season, humidity, up_down)){
         unsigned int features[num_columns] = {
-            year_symb.index(year),
+            //year_symb.index(year),
             outlook_symb.index(outlook),
             temp_symb.index(temp),
             wind_symb.index(wind),
@@ -169,9 +169,9 @@ int main(int argc, char **argv) {
 
     std::string func;
 
-    func += "window.classify = function(year, outlook, temp, wind, season, humidity) {\n";
+    func += "window.classify = function(outlook, temp, wind, season, humidity) {\n";
     func += "let features = [];\n";
-    func += year_symb.make_transform_func("features[0]", "year");
+    //func += year_symb.make_transform_func("features[0]", "year");
     func += outlook_symb.make_transform_func("features[1]", "outlook");
     func += temp_symb.make_transform_func("features[2]", "temp");
     func += wind_symb.make_transform_func("features[3]", "wind");
