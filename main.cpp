@@ -169,14 +169,14 @@ int main(int argc, char **argv) {
 
     std::string func;
 
-    func += "window.classify = function(outlook, temp, wind, season, humidity) {\n";
+    func += "function compute(outlook, temp, wind, season, humidity) {\n";
     func += "let features = [];\n";
-    //func += year_symb.make_transform_func("features[0]", "year");
-    func += outlook_symb.make_transform_func("features[1]", "outlook");
-    func += temp_symb.make_transform_func("features[2]", "temp");
-    func += wind_symb.make_transform_func("features[3]", "wind");
-    func += season_symb.make_transform_func("features[4]", "season");
-    func += humidity_symb.make_transform_func("features[5]", "humidity");
+    //func += year_symb.make_transform_func("features[???]", "year");
+    func += outlook_symb.make_transform_func("features[0]", "outlook");
+    func += temp_symb.make_transform_func("features[1]", "temp");
+    func += wind_symb.make_transform_func("features[2]", "wind");
+    func += season_symb.make_transform_func("features[3]", "season");
+    func += humidity_symb.make_transform_func("features[4]", "humidity");
 
     func += "let data = [\n";
 
