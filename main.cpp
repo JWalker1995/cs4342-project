@@ -198,8 +198,7 @@ int main(int argc, char **argv) {
     }
     func += "];\n";
 
-    func += "let max_prob = 0;\n";
-    func += "let max_val;\n";
+    func += "let probs = {};\n";
     func += "data.forEach(function(result, i) {\n";
     func += "    let total = result[" + std::to_string(output_col) + "][i];\n";
     func += "    let prob = total / " + std::to_string(rows) + ";\n";
@@ -207,14 +206,10 @@ int main(int argc, char **argv) {
     func += "        if (j == " + std::to_string(output_col) + ") {return;}\n";
     func += "        prob *= histogram[features[j]] / total;\n";
     func += "    });\n";
-    func += "    if (prob > max_prob) {\n";
-    func += "        max_prob = prob;\n";
-    func += "        max_val = i;\n";
-    func += "    }\n";
+    func += up_down_symb.make_reverse_func("key", "i");
+    func += "    probs[key] = prob;\n";
     func += "});\n";
-    func += up_down_symb.make_reverse_func("result", "max_val");
-    func += "return result;\n";
-
+    func += "return probs;\n";
     func += "};\n";
 
     std::cout << func << std::endl;

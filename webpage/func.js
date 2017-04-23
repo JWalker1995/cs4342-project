@@ -4,12 +4,12 @@ features[0] = {
 "heavy snow": 8,
 "light snow": 7,
 "heavy rain": 6,
-"rain": 5,
-"overcast": 0,
+"haze": 3,
+"clear": 2,
 "light rain": 4,
 "cloudy": 1,
-"clear": 2,
-"haze": 3,
+"rain": 5,
+"overcast": 0,
 }[outlook];
 if (typeof features[0] === 'undefined') {
 throw new Error('Invalid value in variable outlook: ' + JSON.stringify(outlook));
@@ -26,8 +26,8 @@ else if (wind < 6.000000) {features[2] = 2;}
 else if (wind < 10.000000) {features[2] = 3;}
 else {features[2] = 4;}
 features[3] = {
-"summer": 2,
 "fall": 3,
+"summer": 2,
 "spring": 1,
 "winter": 0,
 }[season];
@@ -44,8 +44,7 @@ let data = [
 [[20, 10, 68, 2, 11, 5, 1, 1, ], [4, 13, 16, 36, 15, 34, ], [1, 24, 49, 35, 9, ], [29, 28, 29, 32, ], [8, 26, 28, 25, 23, 8, ], [118, ], ],
 [[33, 16, 58, 1, 9, 7, 2, 1, 1, ], [4, 10, 24, 27, 24, 39, ], [3, 34, 53, 34, 4, ], [33, 33, 33, 29, ], [6, 17, 33, 35, 23, 14, ], [0, 128, ], ],
 ];
-let max_prob = 0;
-let max_val;
+let probs = {};
 data.forEach(function(result, i) {
     let total = result[5][i];
     let prob = total / 246;
@@ -53,18 +52,15 @@ data.forEach(function(result, i) {
         if (j == 5) {return;}
         prob *= histogram[features[j]] / total;
     });
-    if (prob > max_prob) {
-        max_prob = prob;
-        max_val = i;
-    }
-});
-result = {
+key = {
 "1": "down",
 "0": "up",
-}[max_val];
-if (typeof result === 'undefined') {
-throw new Error('Invalid value in variable max_val: ' + JSON.stringify(max_val));
+}[i];
+if (typeof key === 'undefined') {
+throw new Error('Invalid value in variable i: ' + JSON.stringify(i));
 }
-return result;
+    probs[key] = prob;
+});
+return probs;
 };
 

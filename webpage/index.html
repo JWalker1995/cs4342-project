@@ -3,41 +3,57 @@
 <html>
 	<head>
 		<title>Naive Bayes Project</title>
-		<link rel="stylesheet" type="text/css" href="C:\Users\Kevin\Desktop\Project\webpage\mystyle.css">
-		<script type="text/javascript" src="C:\Users\Kevin\Desktop\Project\webpage\func.js"></script> 
-		<script type="text/javascript" src="C:\Users\Kevin\Desktop\Project\webpage\gatherData.js"></script>
+		<link rel="stylesheet" type="text/css" href="mystyle.css">
+		<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script
+			src="https://code.jquery.com/jquery-3.2.1.min.js"
+			integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+			crossorigin="anonymous"></script>
+		<script
+			src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+			integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+			crossorigin="anonymous"></script>
+		<script type="text/javascript" src="func.js"></script>
+		<script type="text/javascript" src="gatherData.js"></script>
 	</head>
 	<body>
 		<center>
-		<fieldset class="textarea"><h1 class="arial">Dow Market Prediction</h1></fieldset>
+		<fieldset class="textarea">
+			<h1 class="arial">Dow Market Prediction</h1>
+		</fieldset>
 		<form name="algoData">
 			<fieldset>
 				<legend>Data Parameters:</legend>
-				<select name="season" id="season">
-					<option label="Select Season "></option>
-					<option value="spring">Spring</option>
-					<option value="summer">Summer</option>
-					<option value="fall">Fall</option>
-					<option value="winter">Winter</option>
-				</select><br>
-				<select name="outlook" id="outlook">
-					<option selected value="undefined">Select Outlook</option>
-					<option value="clear">Clear</option>
-					<option value="overcast">Overcast</option>
-					<option value="cloudy">Cloudy</option>
-					<option value="haze">Haze</option>
-					<option value="light rain">Light Rain</option>
-					<option value="rain">Rain</option>
-					<option value="heavy rain">Heavy Rain</option>
-					<option value="light snow">Light Snow</option>
-					<option value="heavy snow">Heavy Snow</option>
-				</select><br>
-				<input type="text" name="temp" value="Enter Temperature" onfocus="if(this.value == 'Enter Temperature'){this.value=''}" onblur="if(this.value == ''){this.value = 'Enter Temperature'}"><br>
-				<input type="text" name="wind" value="Enter Wind Speed" onfocus="if(this.value == 'Enter Wind Speed'){this.value=''}" onblur="if(this.value == ''){this.value = 'Enter Wind Speed'}"><br>
-				<input type="text" name="humidity" value="Enter Humidity Percentage" onfocus="if(this.value == 'Enter Humidity Percentage'){this.value=''}" onblur="if(this.value == ''){this.value = 'Enter Humidity Percentage'}"><br><br>
-				<button type="button" value="Submit" onclick="gatherData(this.form)">Submit</button>
-				<button type="reset" value="Reset" onclick="window.location.reload()">Reset</button>
-				<p class="arial">Click the "Submit" button to pass the values to the Naive Bayes Algorithm.</p>
+				<input type="radio" name="season" id="spring" /><label for="spring">Spring</label>
+				<input type="radio" name="season" id="summer" /><label for="summer">Summer</label>
+				<input type="radio" name="season" id="fall" /><label for="fall">Fall</label>
+				<input type="radio" name="season" id="winter" /><label for="winter">Winter</label>
+				<br />
+				
+				<input type="radio" name="outlook" id="clear" /><label for="clear">Clear</label>
+				<input type="radio" name="outlook" id="overcast" /><label for="overcast">Overcast</label>
+				<input type="radio" name="outlook" id="cloudy" /><label for="cloudy">Cloudy</label>
+				<input type="radio" name="outlook" id="haze" /><label for="haze">Haze</label>
+				<input type="radio" name="outlook" id="light_rain" /><label for="light_rain">Light Rain</label>
+				<input type="radio" name="outlook" id="rain" /><label for="rain">Rain</label>
+				<input type="radio" name="outlook" id="heavy_rain" /><label for="heavy_rain">Heavy Rain</label>
+				<input type="radio" name="outlook" id="light_snow" /><label for="light_snow">Light Snow</label>
+				<input type="radio" name="outlook" id="heavy_snow" /><label for="heavy_snow">Heavy Snow</label>
+				<br />
+				
+				<label for="temp">Temperature: </label><input type="range" name="temp" id="temp" min="0" max="100">
+				<br />
+				
+				<label for="wind">Wind Speed: </label><input type="range" name="wind" id="wind">
+				<br />
+				
+				<label for="humidity">Humidity Percentage: </label><input type="range" name="humidity" id="humidity">
+				<br />
+				<br />
+				
+				Up: <div id="up_prob"></div>
+				Down: <div id="down_prob"></div>
+				
 			</fieldset>
 		</form>
 		<div class="arial" id="result"></div>
