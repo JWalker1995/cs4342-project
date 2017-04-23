@@ -1,0 +1,106 @@
+/* CSS file for cs4342 semester project - Market Prediction using weather data */
+
+body {
+    background-color: #34495e;
+}
+
+p.arial {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1.arial {
+    font-family: Arial, Helvetica, sans-serif;
+	color: #435e7a;
+}
+
+fieldset {
+	background: #ecf0f1;
+	margin: 20px;
+	width: 65%;
+	padding: 0 10px 10px;
+	border: 4px solid;
+	border-color: #95a5a6;
+	border-radius: 8px;
+	box-shadow: 0 0 10px #667;
+	padding-top: 10px;
+}
+
+fieldset.textarea {
+	background: #ecf0f1;
+	margin: 20px;
+	width: 50%;
+	border: 4px solid;
+	border-color: #95a5a6;
+	border-radius: 8px;
+	box-shadow: 0 0 10px #667;
+	padding-top: 10px;
+}
+
+fieldset legend {
+    background: #ecf0f1;
+	font-family: Arial, Helvetica, sans-serif;
+    color: #34495e;
+    padding: 5px 10px ;
+    font-size: 26px;
+    border-radius: 5px;
+	border-color: #95a5a6;
+    box-shadow: 0 0 10px #667;
+}
+
+input[type=text], select {
+	width: 50%;
+	margin: 8px 0;
+	padding: 5px 10px;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+button[type=button] {
+	width: 25%;
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button[type=reset] {
+	width: 25%;
+	background-color: #aa4949;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+input[type=text]:focus {
+	border: 1.5px solid #5fe2dc;
+}
+			
+button[type=button]:hover {
+	background-color: #45a049;
+}
+
+button[type=reset]:hover {
+	background-color: #933f3f;
+}
+
+#footer {
+    clear: both;
+    background: #34495e;
+    color: #95a5a6;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: normal;
+    margin: 0;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}

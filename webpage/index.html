@@ -1,0 +1,47 @@
+<!-- cs4342 Semester Project - Market Prediction. This project takes weather data from the user and predicts if the stock market will increase or decrease. -->   
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Naive Bayes Project</title>
+		<link rel="stylesheet" type="text/css" href="C:\Users\Kevin\Desktop\Project\webpage\mystyle.css">
+		<script type="text/javascript" src="C:\Users\Kevin\Desktop\Project\webpage\func.js"></script> 
+		<script type="text/javascript" src="C:\Users\Kevin\Desktop\Project\webpage\gatherData.js"></script>
+	</head>
+	<body>
+		<center>
+		<fieldset class="textarea"><h1 class="arial">Dow Market Prediction</h1></fieldset>
+		<form name="algoData">
+			<fieldset>
+				<legend>Data Parameters:</legend>
+				<select name="season" id="season">
+					<option label="Select Season "></option>
+					<option value="spring">Spring</option>
+					<option value="summer">Summer</option>
+					<option value="fall">Fall</option>
+					<option value="winter">Winter</option>
+				</select><br>
+				<select name="outlook" id="outlook">
+					<option selected value="undefined">Select Outlook</option>
+					<option value="clear">Clear</option>
+					<option value="overcast">Overcast</option>
+					<option value="cloudy">Cloudy</option>
+					<option value="haze">Haze</option>
+					<option value="light rain">Light Rain</option>
+					<option value="rain">Rain</option>
+					<option value="heavy rain">Heavy Rain</option>
+					<option value="light snow">Light Snow</option>
+					<option value="heavy snow">Heavy Snow</option>
+				</select><br>
+				<input type="text" name="temp" value="Enter Temperature" onfocus="if(this.value == 'Enter Temperature'){this.value=''}" onblur="if(this.value == ''){this.value = 'Enter Temperature'}"><br>
+				<input type="text" name="wind" value="Enter Wind Speed" onfocus="if(this.value == 'Enter Wind Speed'){this.value=''}" onblur="if(this.value == ''){this.value = 'Enter Wind Speed'}"><br>
+				<input type="text" name="humidity" value="Enter Humidity Percentage" onfocus="if(this.value == 'Enter Humidity Percentage'){this.value=''}" onblur="if(this.value == ''){this.value = 'Enter Humidity Percentage'}"><br><br>
+				<button type="button" value="Submit" onclick="gatherData(this.form)">Submit</button>
+				<button type="reset" value="Reset" onclick="window.location.reload()">Reset</button>
+				<p class="arial">Click the "Submit" button to pass the values to the Naive Bayes Algorithm.</p>
+			</fieldset>
+		</form>
+		<div class="arial" id="result"></div>
+		</center>
+		<div class="footer" id="footer">A CS4342 Project</div>
+	</body>
+</html>
