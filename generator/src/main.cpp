@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
     
     
     decision_tree::TreeParams tree_params;
-    tree_params.min_samples_to_split = 1;
+    tree_params.min_samples_to_split = 8;
     tree_params.min_gain_to_split = 0.01f; // Must be greater than zero
 
     std::string func;
@@ -98,18 +98,18 @@ int main(int argc, char **argv) {
     func += "let dt_obj = {};\n";
     
     // Convert array of probabilities into an object mapping from the class string to a probability
-    func += "nb_res.forEach(function(val, index) {\n";
+    func += "nb_arr.forEach(function(val, index) {\n";
     func += up_down_symb.make_reverse_func("key", "index");
     func += "nb_obj[key] = val;\n";
     func += "});\n";
     
-    func += "dt_res.forEach(function(val, index) {\n";
+    func += "dt_arr.forEach(function(val, index) {\n";
     func += up_down_symb.make_reverse_func("key", "index");
     func += "dt_obj[key] = val;\n";
     func += "});\n";
     
     // Return it
-    func += "return {'nb_obj': nb_obj, 'dt_obj': dt_obj'};\n";
+    func += "return {'nb_obj': nb_obj, 'dt_obj': dt_obj};\n";
     
     func += "};\n";
     

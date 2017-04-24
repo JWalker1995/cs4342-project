@@ -62,7 +62,7 @@ std::string DecisionNode::to_js_code() const {
     if (is_leaf()) {
         res += "return " + std::to_string(classification) + ";\n";
     } else {
-        std::string feature_code = "feature[" + std::to_string(split_index) + "]";
+        std::string feature_code = "features[" + std::to_string(split_index) + "]";
 
         res += "switch (" + feature_code + ") {\n";
 
@@ -74,7 +74,7 @@ std::string DecisionNode::to_js_code() const {
         }
 
         res += "default:\n";
-        res += "throw new Error('Invalid " + feature_code + "': " + feature_code + ");\n";
+        res += "throw new Error('Invalid " + feature_code + ":' + " + feature_code + ");\n";
         res += "}";
     }
     return res;

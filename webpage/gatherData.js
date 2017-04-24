@@ -27,6 +27,6 @@ function gatherData() {
 	var data = v + ", " + w + ", " + x + ", " + y + ", " + z;
 	console.log(data);
 	var probs = compute(w, x, y, v, z);
-	$('#up_prob').text(probs.up.toExponential(2)).toggleClass('highlight', probs.up > probs.down);
-	$('#down_prob').text(probs.down.toExponential(2)).toggleClass('highlight', probs.down > probs.up);
+	$('#up_prob').text(probs.nb_obj.up.toExponential(2)).toggleClass('highlight', probs.nb_obj.up > probs.nb_obj.down);
+	$('#down_prob').text(probs.nb_obj.down.toExponential(2)).toggleClass('highlight', probs.nb_obj.down > probs.nb_obj.up);
 };

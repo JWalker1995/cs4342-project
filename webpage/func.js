@@ -5,12 +5,12 @@ features[0] = {
 "heavy snow": 8,
 "light snow": 7,
 "heavy rain": 6,
-"rain": 5,
-"overcast": 0,
+"haze": 3,
+"clear": 2,
 "light rain": 4,
 "cloudy": 1,
-"clear": 2,
-"haze": 3,
+"rain": 5,
+"overcast": 0,
 }[outlook];
 if (typeof features[0] === 'undefined') {
 throw new Error('Invalid value in variable outlook: ' + JSON.stringify(outlook));
@@ -27,8 +27,8 @@ else if (wind < 6.000000) {features[2] = 2;}
 else if (wind < 10.000000) {features[2] = 3;}
 else {features[2] = 4;}
 features[3] = {
-"summer": 2,
 "fall": 3,
+"summer": 2,
 "spring": 1,
 "winter": 0,
 }[season];
@@ -58,141 +58,127 @@ return data.map(function(result, i) {
 };
 let dt_func = function(features) {
 let index = (function() {
-switch (feature[0]) {
+switch (features[0]) {
 case 0:
-switch (feature[1]) {
-case 0:
-switch (feature[2]) {
+switch (features[1]) {
 case 0:
 return 0;
 case 1:
+switch (features[3]) {
+case 0:
+switch (features[4]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+return 1;
+case 3:
+return 0;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
+}case 1:
 return 0;
 case 2:
 return 0;
 case 3:
-switch (feature[4]) {
+return 0;
+default:
+throw new Error('Invalid features[3]:' + features[3]);
+}case 2:
+switch (features[4]) {
 case 0:
 return 0;
 case 1:
 return 0;
 case 2:
-return 0;
+return 1;
 case 3:
 return 1;
+case 4:
+return 0;
+case 5:
+return 0;
 default:
-throw new Error('Invalid feature[4]': feature[4]);
+throw new Error('Invalid features[4]:' + features[4]);
+}case 3:
+switch (features[2]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+switch (features[4]) {
+case 0:
+return 0;
+case 1:
+return 1;
+case 2:
+return 0;
+case 3:
+return 0;
+case 4:
+return 0;
+case 5:
+return 1;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
+}case 3:
+switch (features[4]) {
+case 0:
+return 0;
+case 1:
+return 1;
+case 2:
+return 1;
+case 3:
+return 1;
+case 4:
+return 0;
+case 5:
+return 1;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
 }case 4:
 return 0;
 default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 1:
-switch (feature[3]) {
+throw new Error('Invalid features[2]:' + features[2]);
+}case 4:
+switch (features[2]) {
 case 0:
-switch (feature[4]) {
-case 0:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
 return 1;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 1:
-switch (feature[2]) {
-case 0:
-return 0;
 case 1:
-return 0;
+return 1;
 case 2:
 return 0;
 case 3:
 return 1;
-case 4:
-return 0;
 default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 2:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-case 4:
-return 1;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 3:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 2:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-switch (feature[3]) {
-case 0:
-return 1;
-case 1:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 2:
-return 1;
-case 3:
-return 1;
-case 4:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-switch (feature[3]) {
-case 0:
-return 1;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
+throw new Error('Invalid features[2]:' + features[2]);
 }case 5:
-switch (feature[2]) {
+switch (features[4]) {
+case 0:
+return 0;
+case 1:
+return 1;
+case 2:
+return 0;
+case 3:
+return 1;
+case 4:
+return 1;
+case 5:
+return 1;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
+}default:
+throw new Error('Invalid features[1]:' + features[1]);
+}case 1:
+switch (features[4]) {
+case 0:
+return 1;
+case 1:
+switch (features[1]) {
 case 0:
 return 0;
 case 1:
@@ -202,39 +188,113 @@ return 1;
 case 3:
 return 0;
 case 4:
+return 1;
+case 5:
 return 0;
 default:
-throw new Error('Invalid feature[2]': feature[2]);
-}default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 3:
-switch (feature[2]) {
+throw new Error('Invalid features[1]:' + features[1]);
+}case 2:
+switch (features[3]) {
 case 0:
 return 0;
 case 1:
-switch (feature[4]) {
+return 1;
+case 2:
+return 0;
+case 3:
+return 0;
+default:
+throw new Error('Invalid features[3]:' + features[3]);
+}case 3:
+switch (features[1]) {
 case 0:
 return 0;
 case 1:
 return 0;
 case 2:
 return 1;
+case 3:
+return 1;
+case 4:
+return 0;
+case 5:
+switch (features[3]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+switch (features[2]) {
+case 0:
+return 0;
+case 1:
+return 1;
+case 2:
+return 1;
+case 3:
+return 1;
+default:
+throw new Error('Invalid features[2]:' + features[2]);
+}case 3:
+return 1;
+default:
+throw new Error('Invalid features[3]:' + features[3]);
+}default:
+throw new Error('Invalid features[1]:' + features[1]);
+}case 4:
+switch (features[2]) {
+case 0:
+return 0;
+case 1:
+return 1;
+case 2:
+switch (features[1]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+return 0;
+case 3:
+return 0;
+case 4:
+return 1;
+case 5:
+return 0;
+default:
+throw new Error('Invalid features[1]:' + features[1]);
+}case 3:
+return 1;
+default:
+throw new Error('Invalid features[2]:' + features[2]);
+}default:
+throw new Error('Invalid features[4]:' + features[4]);
+}case 2:
+switch (features[2]) {
+case 0:
+return 1;
+case 1:
+switch (features[4]) {
+case 0:
+return 1;
+case 1:
+switch (features[1]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+return 0;
 case 3:
 return 0;
 case 4:
 return 0;
 case 5:
-switch (feature[3]) {
-case 0:
-return 1;
-case 1:
 return 0;
 default:
-throw new Error('Invalid feature[3]': feature[3]);
-}default:
-throw new Error('Invalid feature[4]': feature[4]);
+throw new Error('Invalid features[1]:' + features[1]);
 }case 2:
-switch (feature[4]) {
+switch (features[1]) {
 case 0:
 return 0;
 case 1:
@@ -242,7 +302,93 @@ return 1;
 case 2:
 return 0;
 case 3:
-switch (feature[3]) {
+return 0;
+case 4:
+return 0;
+case 5:
+return 0;
+default:
+throw new Error('Invalid features[1]:' + features[1]);
+}case 3:
+switch (features[3]) {
+case 0:
+return 1;
+case 1:
+return 0;
+case 2:
+return 0;
+case 3:
+return 1;
+default:
+throw new Error('Invalid features[3]:' + features[3]);
+}case 4:
+return 1;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
+}case 2:
+switch (features[3]) {
+case 0:
+switch (features[1]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+return 1;
+case 3:
+return 0;
+default:
+throw new Error('Invalid features[1]:' + features[1]);
+}case 1:
+switch (features[4]) {
+case 0:
+return 1;
+case 1:
+return 0;
+case 2:
+switch (features[1]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+return 0;
+case 3:
+return 1;
+case 4:
+return 1;
+case 5:
+return 1;
+default:
+throw new Error('Invalid features[1]:' + features[1]);
+}case 3:
+return 1;
+case 4:
+return 0;
+case 5:
+return 0;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
+}case 2:
+switch (features[4]) {
+case 0:
+return 0;
+case 1:
+return 1;
+case 2:
+return 0;
+case 3:
+return 0;
+case 4:
+return 0;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
+}case 3:
+switch (features[4]) {
+case 0:
+return 0;
+case 1:
+switch (features[1]) {
 case 0:
 return 0;
 case 1:
@@ -252,51 +398,105 @@ return 0;
 case 3:
 return 0;
 default:
-throw new Error('Invalid feature[3]': feature[3]);
+throw new Error('Invalid features[1]:' + features[1]);
+}case 2:
+return 0;
+case 3:
+return 0;
+case 4:
+return 1;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
+}default:
+throw new Error('Invalid features[3]:' + features[3]);
+}case 3:
+switch (features[1]) {
+case 0:
+return 1;
+case 1:
+return 0;
+case 2:
+switch (features[3]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+return 0;
+case 3:
+return 0;
+default:
+throw new Error('Invalid features[3]:' + features[3]);
+}case 3:
+switch (features[4]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+return 0;
+case 3:
+return 1;
+case 4:
+return 1;
+default:
+throw new Error('Invalid features[4]:' + features[4]);
 }case 4:
 return 0;
 case 5:
+return 0;
+default:
+throw new Error('Invalid features[1]:' + features[1]);
+}case 4:
+return 0;
+default:
+throw new Error('Invalid features[2]:' + features[2]);
+}case 3:
+return 1;
+case 4:
+switch (features[2]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+switch (features[3]) {
+case 0:
+return 0;
+case 1:
+return 0;
+case 2:
+return 1;
+case 3:
 return 1;
 default:
-throw new Error('Invalid feature[4]': feature[4]);
+throw new Error('Invalid features[3]:' + features[3]);
 }case 3:
-switch (feature[4]) {
+switch (features[3]) {
 case 0:
 return 0;
 case 1:
 return 1;
 case 2:
-switch (feature[3]) {
-case 0:
-return 1;
-case 1:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-return 1;
-case 4:
-switch (feature[3]) {
-case 0:
-return 1;
-case 1:
+return 0;
+case 3:
 return 0;
 default:
-throw new Error('Invalid feature[3]': feature[3]);
+throw new Error('Invalid features[3]:' + features[3]);
+}case 4:
+return 0;
+default:
+throw new Error('Invalid features[2]:' + features[2]);
 }case 5:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 4:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 4:
-switch (feature[2]) {
+switch (features[1]) {
 case 0:
-return 1;
+return 0;
 case 1:
-switch (feature[3]) {
+return 1;
+case 2:
+return 1;
+case 3:
+switch (features[2]) {
 case 0:
 return 0;
 case 1:
@@ -304,949 +504,53 @@ return 0;
 case 2:
 return 0;
 case 3:
-return 1;
+return 0;
+case 4:
+return 0;
 default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 2:
-switch (feature[3]) {
+throw new Error('Invalid features[2]:' + features[2]);
+}case 4:
+return 0;
+case 5:
+switch (features[4]) {
 case 0:
 return 0;
 case 1:
-return 1;
-case 2:
 return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-return 1;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 5:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 1;
 case 2:
 return 0;
 case 3:
 return 1;
 case 4:
-switch (feature[3]) {
-case 0:
 return 0;
-case 1:
-return 1;
-case 2:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
+case 5:
 return 1;
 default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 5:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
+throw new Error('Invalid features[4]:' + features[4]);
 }default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 1:
-switch (feature[4]) {
-case 0:
-return 1;
-case 1:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 1;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 4:
-switch (feature[2]) {
-case 0:
-return 1;
-case 1:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 5:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 2:
-switch (feature[3]) {
-case 0:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 2:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 1:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 1;
-case 4:
-return 0;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 1;
-case 4:
-return 0;
-case 5:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-return 1;
-case 3:
-return 1;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 3:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 4:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 1;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 3:
-return 1;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 2:
-switch (feature[2]) {
-case 0:
-return 1;
-case 1:
-switch (feature[4]) {
-case 0:
-return 1;
-case 1:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 0;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 2:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-switch (feature[3]) {
-case 0:
-return 1;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 4:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 5:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 3:
-switch (feature[3]) {
-case 0:
-return 1;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 4:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 2:
-switch (feature[3]) {
-case 0:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-return 0;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 2:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 3:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 1:
-switch (feature[4]) {
-case 0:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 0;
-case 4:
-return 0;
-case 5:
-return 1;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 1:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 0;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 2:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-case 4:
-return 1;
-case 5:
-return 1;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 3:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 1;
-case 5:
-return 1;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 4:
-return 0;
-case 5:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 0;
-case 4:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 2:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 0;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 3:
-switch (feature[4]) {
-case 0:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 1:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 2:
-return 0;
-case 3:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 1;
-case 4:
-return 0;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 4:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-switch (feature[1]) {
-case 0:
-switch (feature[4]) {
-case 0:
-return 1;
-case 1:
-return 0;
-case 2:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 1:
-return 0;
-case 2:
-switch (feature[3]) {
-case 0:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-return 0;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 2:
-return 0;
-case 3:
-return 1;
-case 4:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 4:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 5:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 4:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 3:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 5:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 4:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-switch (feature[3]) {
-case 0:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-case 4:
-return 0;
-case 5:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 1:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-case 4:
-return 1;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 2:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 3:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-switch (feature[3]) {
-case 0:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 0;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 3:
-return 1;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 1:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 0;
-case 5:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 4:
-return 1;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 4:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-return 0;
-case 4:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 5:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 1;
-case 3:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 3:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-switch (feature[3]) {
-case 0:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 1;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 0;
-case 5:
-return 0;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}case 2:
-return 0;
-case 3:
-return 1;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 4:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 4:
-return 0;
-case 5:
-switch (feature[4]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-case 4:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-switch (feature[3]) {
-case 0:
-return 0;
-case 1:
-return 1;
-case 2:
-return 0;
-case 3:
-return 0;
-default:
-throw new Error('Invalid feature[3]': feature[3]);
-}case 3:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 5:
-return 1;
-default:
-throw new Error('Invalid feature[4]': feature[4]);
-}default:
-throw new Error('Invalid feature[1]': feature[1]);
+throw new Error('Invalid features[1]:' + features[1]);
 }case 6:
-switch (feature[1]) {
-case 0:
 return 0;
-case 1:
+case 7:
 return 0;
-case 2:
-return 0;
-case 3:
-return 0;
-case 4:
-return 0;
-case 5:
-return 1;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 7:
-switch (feature[1]) {
-case 0:
-switch (feature[2]) {
-case 0:
-return 0;
-case 1:
-return 0;
-case 2:
-return 0;
-case 3:
-return 1;
-case 4:
-return 0;
-default:
-throw new Error('Invalid feature[2]': feature[2]);
-}case 1:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 8:
+case 8:
 return 1;
 case 9:
-switch (feature[2]) {
+switch (features[2]) {
 case 0:
 return 0;
 case 1:
 return 0;
 case 2:
-switch (feature[1]) {
-case 0:
 return 0;
-case 1:
-return 0;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 3:
-switch (feature[1]) {
-case 0:
-return 0;
-case 1:
+case 3:
 return 1;
-default:
-throw new Error('Invalid feature[1]': feature[1]);
-}case 4:
+case 4:
 return 0;
 default:
-throw new Error('Invalid feature[2]': feature[2]);
+throw new Error('Invalid features[2]:' + features[2]);
 }default:
-throw new Error('Invalid feature[0]': feature[0]);
+throw new Error('Invalid features[0]:' + features[0]);
 }})();let res = [];
 res[index] = 1.0;
 return res;
@@ -1255,7 +559,7 @@ let nb_arr = nb_func(features);
 let dt_arr = dt_func(features);
 let nb_obj = {};
 let dt_obj = {};
-nb_res.forEach(function(val, index) {
+nb_arr.forEach(function(val, index) {
 key = {
 "1": "down",
 "0": "up",
@@ -1265,7 +569,7 @@ throw new Error('Invalid value in variable index: ' + JSON.stringify(index));
 }
 nb_obj[key] = val;
 });
-dt_res.forEach(function(val, index) {
+dt_arr.forEach(function(val, index) {
 key = {
 "1": "down",
 "0": "up",
@@ -1275,6 +579,6 @@ throw new Error('Invalid value in variable index: ' + JSON.stringify(index));
 }
 dt_obj[key] = val;
 });
-return {'nb_obj': nb_obj, 'dt_obj': dt_obj'};
+return {'nb_obj': nb_obj, 'dt_obj': dt_obj};
 };
 
