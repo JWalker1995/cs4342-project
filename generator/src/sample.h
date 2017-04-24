@@ -1,7 +1,7 @@
 #ifndef SAMPLE_H
 #define SAMPLE_H
 
-#include "assert.h"
+#include <assert.h>
 
 class Sample {
 public:

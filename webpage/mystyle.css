@@ -105,6 +105,10 @@ button[type=reset]:hover {
     width: 100%;
 }
 
+.output_prob {
+	border-radius: 5px;
+	padding: 2px 10px;
+}
 .highlight {
-	background-color: red;
+	background-color: #FF91A4;
 }

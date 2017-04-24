@@ -6,6 +6,8 @@
 #include "treeparams.h"
 #include "decisionnode.h"
 
+namespace decision_tree {
+
 void Splitter::add_sample(const Sample &sample) {
     samples.push_back(sample);
 }
@@ -148,4 +150,6 @@ const DecisionNode *Splitter::split_on(unsigned int split_index, const TreeParam
     delete[] splitters;
 
     return res;
+}
+
 }

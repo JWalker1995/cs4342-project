@@ -1,9 +1,11 @@
-#ifndef SPLITTER_H
-#define SPLITTER_H
+#ifndef DT_SPLITTER_H
+#define DT_SPLITTER_H
 
 #include <vector>
 
 #include "sample.h"
+
+namespace decision_tree {
 
 class TreeParams;
 class DecisionNode;
@@ -26,4 +28,6 @@ private:
     const DecisionNode *split_on(unsigned int split_index, const TreeParams &params) const;
 };
 
-#endif // SPLITTER_H
+}
+
+#endif // DT_SPLITTER_H

@@ -2,21 +2,26 @@
 #include <unordered_map>
 
 #define CSV_IO_NO_THREAD
-#include "csv.h"
+#include "3rd_party/csv.h"
 
-#include "stringsymbolizer.h"
-#include "passthroughsymbolizer.h"
-#include "rangesymbolizer.h"
+#include "symbolizers/stringsymbolizer.h"
+#include "symbolizers/passthroughsymbolizer.h"
+#include "symbolizers/rangesymbolizer.h"
 
-#include "autovector.h"
+#include "sample.h"
+
+#include "naive_bayes/builder.h"
+#include "decision_tree/builder.h"
 
 int main(int argc, char **argv) {
     if (argc != 2) {
-        std::cerr << "Usage: ./naive_bayes [csv_file]" << std::endl;
+        std::cerr << "Usage: ./generator [csv_file]" << std::endl;
         return 1;
     }
-
+    
     static constexpr unsigned int num_columns = 6;
+    Sample::num_features = 5;
+    
     io::CSVReader<num_columns> in(argv[1]);
 
     in.read_header(io::ignore_extra_column,
@@ -29,7 +34,6 @@ int main(int argc, char **argv) {
                    "up/down"
                    /* "market difference", "current day", "previous day" */
                    );
-    unsigned int output_col = 5;
 
     //StringSymbolizer year_symb;
     StringSymbolizer outlook_symb;
@@ -39,10 +43,8 @@ int main(int argc, char **argv) {
     RangeSymbolizer humidity_symb; humidity_symb.add_split(40); humidity_symb.add_split(50); humidity_symb.add_split(60); humidity_symb.add_split(70); humidity_symb.add_split(80);
     StringSymbolizer up_down_symb;
 
-
-    AutoVector<std::array<AutoVector<unsigned int>, num_columns>> counts;
-
-    unsigned int rows = 0;
+    naive_bayes::Builder naive_bayes_builder;
+    decision_tree::Builder decision_tree_builder;
 
     //std::string year;
     std::string outlook;
@@ -53,22 +55,23 @@ int main(int argc, char **argv) {
     std::string up_down;
 
     while(in.read_row(/*year, */outlook, temp, wind, season, humidity, up_down)){
-        unsigned int features[num_columns] = {
-            //year_symb.index(year),
-            outlook_symb.index(outlook),
-            temp_symb.index(temp),
-            wind_symb.index(wind),
-            season_symb.index(season),
-            humidity_symb.index(humidity),
-            up_down_symb.index(up_down),
-        };
-
-        std::array<AutoVector<unsigned int>, num_columns> &result_counts = counts[features[output_col]];
-        for (unsigned int i = 0; i < num_columns; i++) {
-            result_counts[i][features[i]]++;
-        }
-        rows++;
+        Sample sample;
+        
+        sample.set_feature(0, outlook_symb.index(outlook));
+        sample.set_feature(1, temp_symb.index(temp));
+        sample.set_feature(2, wind_symb.index(wind));
+        sample.set_feature(3, season_symb.index(season));
+        sample.set_feature(4, humidity_symb.index(humidity));
+        sample.set_result(up_down_symb.index(up_down));
+        
+        naive_bayes_builder.add_sample(sample);
+        decision_tree_builder.add_sample(sample);
     }
+    
+    
+    TreeParams tree_params;
+    tree_params.min_samples_to_split = 1;
+    tree_params.min_gain_to_split = 0.01f; // Must be greater than zero
 
     std::string func;
 
@@ -80,41 +83,28 @@ int main(int argc, char **argv) {
     func += wind_symb.make_transform_func("features[2]", "wind");
     func += season_symb.make_transform_func("features[3]", "season");
     func += humidity_symb.make_transform_func("features[4]", "humidity");
-
-    func += "let data = [\n";
-
-    AutoVector<std::array<AutoVector<unsigned int>, num_columns>>::const_iterator i = counts.cbegin();
-    while (i != counts.cend()) {
-        func += "[";
-        for (unsigned int j = 0; j < num_columns; j++) {
-            func += "[";
-            const AutoVector<unsigned int> &histogram = (*i)[j];
-            AutoVector<unsigned int>::const_iterator k = histogram.cbegin();
-            while (k != histogram.cend()) {
-                func += std::to_string(*k) + ", ";
-                k++;
-            }
-            func += "], ";
-        }
-        func += "],\n";
-        i++;
-    }
-    func += "];\n";
-
-    func += "let probs = {};\n";
-    func += "data.forEach(function(result, i) {\n";
-    func += "    let total = result[" + std::to_string(output_col) + "][i];\n";
-    func += "    let prob = total / " + std::to_string(rows) + ";\n";
-    func += "    result.forEach(function(histogram, j) {\n";
-    func += "        if (j == " + std::to_string(output_col) + ") {return;}\n";
-    func += "        prob *= histogram[features[j]] / total;\n";
-    func += "    });\n";
-    func += up_down_symb.make_reverse_func("key", "i");
-    func += "    probs[key] = prob;\n";
+    
+    func += "let nb_func = " + naive_bayes_builder.to_js_code() + ";\n";
+    func += "let dt_func = " + decision_tree_builder.to_js_code(tree_params) + ";\n";
+    
+    func += "let nb_arr = nb_func(features);\n";
+    func += "let dt_arr = dt_func(features);\n";
+    
+    func += "let nb_obj = {};\n";
+    func += "let dt_obj = {};\n";
+    
+    func += "nb_res.forEach(function(val, index) {" + up_down_symb.make_reverse_func("key", "index");
+    func += "nb_obj[key] = val;\n";
     func += "});\n";
-    func += "return probs;\n";
-    func += "};\n";
-
+    
+    func += "dt_res.forEach(function(val, index) {" + up_down_symb.make_reverse_func("key", "index");
+    func += "dt_obj[key] = val;\n";
+    func += "});\n";
+    
+    func += "return {'nb_obj': nb_obj, 'dt_obj': dt_obj'};\n";
+    
+    func += "};\n"
+    
     std::cout << func << std::endl;
 
     return 0;

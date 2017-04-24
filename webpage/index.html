@@ -30,7 +30,7 @@
 				<input type="radio" name="season" id="summer" /><label for="summer">Summer</label>
 				<input type="radio" name="season" id="fall" /><label for="fall">Fall</label>
 				<input type="radio" name="season" id="winter" /><label for="winter">Winter</label>
-				<br />
+				<br /><br />
 				
 				<input type="radio" name="outlook" id="clear" /><label for="clear">Clear</label>
 				<input type="radio" name="outlook" id="overcast" /><label for="overcast">Overcast</label>
@@ -41,20 +41,23 @@
 				<input type="radio" name="outlook" id="heavy_rain" /><label for="heavy_rain">Heavy Rain</label>
 				<input type="radio" name="outlook" id="light_snow" /><label for="light_snow">Light Snow</label>
 				<input type="radio" name="outlook" id="heavy_snow" /><label for="heavy_snow">Heavy Snow</label>
-				<br />
+				<br /><br />
 				
 				<label for="temp">Temperature: </label><input type="range" name="temp" id="temp" min="0" max="100">
-				<br />
+				<br /><br />
 				
 				<label for="wind">Wind Speed: </label><input type="range" name="wind" id="wind">
-				<br />
+				<br /><br />
 				
 				<label for="humidity">Humidity Percentage: </label><input type="range" name="humidity" id="humidity">
-				<br />
+				<br /><br />
 				<br />
 				
-				Up: <div id="up_prob"></div>
-				Down: <div id="down_prob"></div>
+				Up: <span class="output_prob" id="up_prob"></span>
+				<br />
+				
+				Down: <span class="output_prob" id="down_prob"></span>
+				<br />
 				
 			</fieldset>
 		</form>

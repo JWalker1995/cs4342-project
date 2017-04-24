@@ -1,8 +1,10 @@
-#ifndef DECISIONNODE_H
-#define DECISIONNODE_H
+#ifndef DT_DECISIONNODE_H
+#define DT_DECISIONNODE_H
 
 #include <vector>
 #include <string>
+
+namespace decision_tree {
 
 class Sample;
 
@@ -28,4 +30,6 @@ private:
     std::vector<const DecisionNode *> children;
 };
 
-#endif // DECISIONNODE_H
+}
+
+#endif // DT_DECISIONNODE_H

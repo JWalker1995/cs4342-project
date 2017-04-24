@@ -2,6 +2,8 @@
 
 #include "sample.h"
 
+namespace decision_tree {
+
 DecisionNode *DecisionNode::create_leaf(unsigned int classification) {
     DecisionNode *res = new DecisionNode();
     res->classification = classification;
@@ -76,4 +78,6 @@ std::string DecisionNode::to_js_code() const {
         res += "}";
     }
     return res;
+}
+
 }
