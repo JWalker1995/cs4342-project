@@ -9,8 +9,7 @@
 #include "symbolizers/rangesymbolizer.h"
 
 #include "sample.h"
-
-static constexpr unsigned int num_columns = 6;
+#include "decision_tree/treeparams.h"
 
 #include "naive_bayes/builder.h"
 #include "decision_tree/builder.h"
@@ -22,7 +21,8 @@ int main(int argc, char **argv) {
     }
     
     Sample::num_features = 5;
-    
+    static constexpr unsigned int num_columns = 6;
+
     io::CSVReader<num_columns> in(argv[1]);
 
     in.read_header(io::ignore_extra_column,
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
     }
     
     
-    TreeParams tree_params;
+    decision_tree::TreeParams tree_params;
     tree_params.min_samples_to_split = 1;
     tree_params.min_gain_to_split = 0.01f; // Must be greater than zero
 
@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
     // Return it
     func += "return {'nb_obj': nb_obj, 'dt_obj': dt_obj'};\n";
     
-    func += "};\n"
+    func += "};\n";
     
     std::cout << func << std::endl;
 

@@ -1,6 +1,6 @@
 #include "decisionnode.h"
 
-#include "sample.h"
+#include "../sample.h"
 
 namespace decision_tree {
 

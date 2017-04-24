@@ -1,4 +1,5 @@
 #!/bin/sh
-cd "$(dirname "$0")"
-g++ -g -O0 src/*.cpp src/*/*.cpp -std=c++11 -o generator
+cd "$(dirname "$0")/src"
+g++ -g -O0 *.cpp */*.cpp -std=c++11 -o ../generator
+cd ..
 ./generator data.csv > ../webpage/func.js

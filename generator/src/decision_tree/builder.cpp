@@ -1,5 +1,7 @@
 #include "builder.h"
 
+#include "decisionnode.h"
+
 namespace decision_tree {
 
 void Builder::add_sample(Sample sample) {

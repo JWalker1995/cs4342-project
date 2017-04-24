@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 
-namespace decision_tree {
-
 class Sample;
+
+namespace decision_tree {
 
 class DecisionNode {
 public:

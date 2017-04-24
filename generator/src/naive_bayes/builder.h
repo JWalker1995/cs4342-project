@@ -19,7 +19,7 @@ private:
     // counts[result][feature_index][feature_value]
     // Example:
     // counts["up"]["outlook"]["overcast"] == 12
-    AutoVector<std::array<AutoVector<unsigned int>, num_columns>> counts;
+    AutoVector<AutoVector<AutoVector<unsigned int>>> counts;
     unsigned int rows = 0;
 };
 

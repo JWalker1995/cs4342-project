@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "sample.h"
+#include "../sample.h"
 
 namespace decision_tree {
 
