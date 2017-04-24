@@ -104,3 +104,7 @@ button[type=reset]:hover {
     bottom: 0px;
     width: 100%;
 }
+
+.highlight {
+	background-color: red;
+}

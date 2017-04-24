@@ -4,108 +4,11 @@
 #define CSV_IO_NO_THREAD
 #include "csv.h"
 
+#include "stringsymbolizer.h"
+#include "passthroughsymbolizer.h"
+#include "rangesymbolizer.h"
 
-class StringSymbolizer {
-public:
-    unsigned int index(const std::string &data) {
-        std::pair<std::unordered_map<std::string, unsigned int>::const_iterator, bool> res = values.emplace(data, next_class);
-        if (res.second) {
-            next_class++;
-        }
-        return res.first->second;
-    }
-
-    std::string make_transform_func(const std::string &output_var, const std::string &input_var) const {
-        std::string res;
-        res += output_var + " = {\n";
-        std::unordered_map<std::string, unsigned int>::const_iterator i = values.cbegin();
-        while (i != values.cend()) {
-            res += "\"" + i->first + "\": " + std::to_string(i->second) + ",\n";
-            i++;
-        }
-        res += "}[" + input_var + "];\n";
-        res += "if (typeof " + output_var + " === 'undefined') {\n";
-        res += "throw new Error('Invalid value in variable " + input_var + ": ' + JSON.stringify(" + input_var + "));\n";
-        res += "}\n";
-        return res;
-    }
-
-    std::string make_reverse_func(const std::string &output_var, const std::string &input_var) const {
-        std::string res;
-        res += output_var + " = {\n";
-        std::unordered_map<std::string, unsigned int>::const_iterator i = values.cbegin();
-        while (i != values.cend()) {
-            res += "\"" + std::to_string(i->second) + "\": \"" + i->first + "\",\n";
-            i++;
-        }
-        res += "}[" + input_var + "];\n";
-        res += "if (typeof " + output_var + " === 'undefined') {\n";
-        res += "throw new Error('Invalid value in variable " + input_var + ": ' + JSON.stringify(" + input_var + "));\n";
-        res += "}\n";
-        return res;
-    }
-
-private:
-    unsigned int next_class = 0;
-    std::unordered_map<std::string, unsigned int> values;
-};
-
-class PassthroughSymbolizer {
-public:
-    unsigned int index(unsigned int value) {
-        return value;
-    }
-
-    std::string make_transform_func(const std::string &output_var, const std::string &input_var) const {
-        return output_var + " = " + input_var + ";\n";
-    }
-};
-
-class RangeSymbolizer {
-public:
-    void add_split(double split) {
-        splits.push_back(split);
-    }
-
-    unsigned int index(double value) {
-        return std::upper_bound(splits.cbegin(), splits.cend(), value) - splits.cbegin();
-    }
-
-    std::string make_transform_func(const std::string &output_var, const std::string &input_var) const {
-        if (splits.empty()) {
-            std::cerr << "RangeSymbolizer::splits is empty!" << std::endl;
-            std::exit(1);
-        }
-        std::string res;
-        std::vector<double>::const_iterator i = splits.cbegin();
-        while (i != splits.cend()) {
-            if (i != splits.cbegin()) {
-                res += "else ";
-            }
-            res += "if (" + input_var + " < " + std::to_string(*i) + ") {";
-            res += output_var + " = " + std::to_string(i - splits.cbegin()) + ";";
-            res += "}\n";
-            i++;
-        }
-        res += "else {" + output_var + " = " + std::to_string(splits.size()) + ";}\n";
-        return res;
-    }
-
-private:
-    std::vector<double> splits;
-};
-
-template <typename ElementType>
-class AutoVector : public std::vector<ElementType>{
-public:
-    ElementType &operator[](unsigned int index) {
-        if (index >= std::vector<ElementType>::size()) {
-            std::vector<ElementType>::resize(index + 1);
-        }
-        return std::vector<ElementType>::operator[](index);
-    }
-};
-
+#include "autovector.h"
 
 int main(int argc, char **argv) {
     if (argc != 2) {

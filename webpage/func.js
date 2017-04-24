@@ -1,6 +1,7 @@
 function compute(outlook, temp, wind, season, humidity) {
 let features = [];
 features[0] = {
+"snow": 9,
 "heavy snow": 8,
 "light snow": 7,
 "heavy rain": 6,
@@ -41,13 +42,13 @@ else if (humidity < 70.000000) {features[4] = 3;}
 else if (humidity < 80.000000) {features[4] = 4;}
 else {features[4] = 5;}
 let data = [
-[[20, 10, 68, 2, 11, 5, 1, 1, ], [4, 13, 16, 36, 15, 34, ], [1, 24, 49, 35, 9, ], [29, 28, 29, 32, ], [8, 26, 28, 25, 23, 8, ], [118, ], ],
-[[33, 16, 58, 1, 9, 7, 2, 1, 1, ], [4, 10, 24, 27, 24, 39, ], [3, 34, 53, 34, 4, ], [33, 33, 33, 29, ], [6, 17, 33, 35, 23, 14, ], [0, 128, ], ],
+[[38, 24, 123, 3, 25, 14, 4, 3, 0, 4, ], [11, 29, 35, 59, 37, 67, ], [1, 52, 88, 77, 20, ], [59, 61, 53, 65, ], [11, 53, 66, 46, 44, 18, ], [238, ], ],
+[[65, 36, 108, 4, 17, 14, 3, 2, 1, 4, ], [12, 26, 37, 52, 42, 85, ], [4, 57, 107, 76, 10, ], [65, 61, 71, 57, ], [12, 45, 68, 65, 40, 24, ], [0, 254, ], ],
 ];
 let probs = {};
 data.forEach(function(result, i) {
     let total = result[5][i];
-    let prob = total / 246;
+    let prob = total / 492;
     result.forEach(function(histogram, j) {
         if (j == 5) {return;}
         prob *= histogram[features[j]] / total;
