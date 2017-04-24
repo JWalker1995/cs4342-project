@@ -44,19 +44,31 @@
 				<br /><br />
 				
 				<label for="temp">Temperature: </label><input type="range" name="temp" id="temp" min="0" max="100">
+				<br />
+				<output from="temp" id="temp_output">50</output>
 				<br /><br />
 				
-				<label for="wind">Wind Speed: </label><input type="range" name="wind" id="wind">
+				<label for="wind">Wind Speed: </label><input type="range" name="wind" id="wind" min="0" max="10">
+				<br />
+				<output from="wind" id="wind_output">5</output>
 				<br /><br />
 				
-				<label for="humidity">Humidity Percentage: </label><input type="range" name="humidity" id="humidity">
+				<label for="humidity">Humidity Percentage: </label><input type="range" name="humidity" id="humidity" min="40" max="80">
+				<br />
+				<output from="humidity" id="humidity_output">60</output>
 				<br /><br />
 				<br />
 				
+				<h3>Naive Bayes:</h3>
+				<br />
 				Up: <span class="output_prob" id="up_prob"></span>
 				<br />
-				
 				Down: <span class="output_prob" id="down_prob"></span>
+				<br />
+				
+				<h3>Decision Tree:</h3>
+				<br />
+				Output: <span class="output_prob highlight" id="dt_output"></span>
 				<br />
 				
 			</fieldset>

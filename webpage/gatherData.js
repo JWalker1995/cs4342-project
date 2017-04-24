@@ -14,6 +14,10 @@ function gatherData() {
 	var y = $('input[name=wind]').val();
 	var z = $('input[name=humidity]').val();
 	
+	$('#temp_output').val(x);
+	$('#wind_output').val(y);
+	$('#humidity_output').val(z);
+	
 	if (x == "Enter Temperature") {
 		x = "undefined";
 	}
@@ -29,4 +33,5 @@ function gatherData() {
 	var probs = compute(w, x, y, v, z);
 	$('#up_prob').text(probs.nb_obj.up.toExponential(2)).toggleClass('highlight', probs.nb_obj.up > probs.nb_obj.down);
 	$('#down_prob').text(probs.nb_obj.down.toExponential(2)).toggleClass('highlight', probs.nb_obj.down > probs.nb_obj.up);
+	$('#dt_output').text(probs.dt_obj.up ? 'UP' : 'DOWN');
 };

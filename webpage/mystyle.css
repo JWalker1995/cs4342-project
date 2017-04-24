@@ -112,3 +112,8 @@ button[type=reset]:hover {
 .highlight {
 	background-color: #FF91A4;
 }
+
+output {
+	font-size: 24px;
+	font-weight: bold;
+}
