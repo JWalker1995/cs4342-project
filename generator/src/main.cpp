@@ -10,6 +10,8 @@
 
 #include "sample.h"
 
+static constexpr unsigned int num_columns = 6;
+
 #include "naive_bayes/builder.h"
 #include "decision_tree/builder.h"
 
@@ -19,7 +21,6 @@ int main(int argc, char **argv) {
         return 1;
     }
     
-    static constexpr unsigned int num_columns = 6;
     Sample::num_features = 5;
     
     io::CSVReader<num_columns> in(argv[1]);
@@ -54,7 +55,7 @@ int main(int argc, char **argv) {
     double humidity;
     std::string up_down;
 
-    while(in.read_row(/*year, */outlook, temp, wind, season, humidity, up_down)){
+    while(in.read_row(/*year, */outlook, temp, wind, season, humidity, up_down)) {
         Sample sample;
         
         sample.set_feature(0, outlook_symb.index(outlook));
@@ -77,30 +78,37 @@ int main(int argc, char **argv) {
 
     func += "function compute(outlook, temp, wind, season, humidity) {\n";
     func += "let features = [];\n";
-    //func += year_symb.make_transform_func("features[???]", "year");
+    
+    // Convert feature strings and ranges into the feature ids
     func += outlook_symb.make_transform_func("features[0]", "outlook");
     func += temp_symb.make_transform_func("features[1]", "temp");
     func += wind_symb.make_transform_func("features[2]", "wind");
     func += season_symb.make_transform_func("features[3]", "season");
     func += humidity_symb.make_transform_func("features[4]", "humidity");
     
+    // Define categorization functions
     func += "let nb_func = " + naive_bayes_builder.to_js_code() + ";\n";
     func += "let dt_func = " + decision_tree_builder.to_js_code(tree_params) + ";\n";
     
+    // Call categorization functions
     func += "let nb_arr = nb_func(features);\n";
     func += "let dt_arr = dt_func(features);\n";
     
     func += "let nb_obj = {};\n";
     func += "let dt_obj = {};\n";
     
-    func += "nb_res.forEach(function(val, index) {" + up_down_symb.make_reverse_func("key", "index");
+    // Convert array of probabilities into an object mapping from the class string to a probability
+    func += "nb_res.forEach(function(val, index) {\n";
+    func += up_down_symb.make_reverse_func("key", "index");
     func += "nb_obj[key] = val;\n";
     func += "});\n";
     
-    func += "dt_res.forEach(function(val, index) {" + up_down_symb.make_reverse_func("key", "index");
+    func += "dt_res.forEach(function(val, index) {\n";
+    func += up_down_symb.make_reverse_func("key", "index");
     func += "dt_obj[key] = val;\n";
     func += "});\n";
     
+    // Return it
     func += "return {'nb_obj': nb_obj, 'dt_obj': dt_obj'};\n";
     
     func += "};\n"
